@@ -1,0 +1,20 @@
+openapi: 3.0.0
+paths:
+  /:
+    get:
+      operationId: RewardController_getHello
+      parameters: []
+      responses:
+        "200":
+          description: ""
+info:
+  title: Media Service API
+  description: Reward Service API documentation
+  version: Truepill
+  contact: {}
+tags:
+  - name: Reward Service
+    description: ""
+servers: []
+components:
+  schemas: {}

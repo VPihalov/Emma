@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
-import { PubSubService } from './pubsub.service'
+import { RewardController } from './reward.controller'
+import { RewardService } from './reward.service'
 
 @Module({
   imports: [ConfigModule],
-  providers: [PubSubService],
-  exports: [PubSubService],
+  controllers: [RewardController],
+  providers: [RewardService],
 })
-export class PubSubModule {}
+export class RewardModule {}

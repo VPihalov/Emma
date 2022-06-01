@@ -1,12 +1,11 @@
-import chalk from 'chalk'
 import { Logger, VersioningType } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
+
 import { AppModule } from './app.module'
 import { generateOpenAPIdoc, getConfig, setupSwagger } from './utils/bootstrap.util'
 
 async function bootstrap(): Promise<void> {
-
   const logger = process.env.APP_LOGGING === 'true' ? new Logger() : false
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger,
@@ -28,11 +27,11 @@ async function bootstrap(): Promise<void> {
   })
 
   app.enableVersioning({ type: VersioningType.URI, prefix: 'v' })
-  const { APP_PORT, NODE_ENV } = getConfig(app)
+  const { APP_PORT } = getConfig(app)
   const document = setupSwagger(app)
   await generateOpenAPIdoc(document)
   await app.listen(APP_PORT, (): void => {
-    Logger.log(chalk.hex('#FFD700').bold(`\nServer started listening on PORT: ${APP_PORT} \nNODE_ENV: ${NODE_ENV}`))
+    Logger.log(`\nServer started listening on PORT: ${APP_PORT}`)
   })
 }
 bootstrap().catch((e): void => Logger.error(e.message, e))

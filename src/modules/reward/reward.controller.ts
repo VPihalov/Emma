@@ -1,12 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from '../../app.service';
+import { Controller, Get } from '@nestjs/common'
+
+import { RewardService } from './reward.service'
 
 @Controller()
 export class RewardController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly rewardService: RewardService) {}
 
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    return this.rewardService.getHello()
   }
 }

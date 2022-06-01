@@ -1,6 +1,3 @@
-import { TerminusModule } from '@nestjs/terminus'
+import { RewardModule } from './reward/reward.module'
 
-
-export const appModules = [
-  AuthModule,
-]
+export const appModules = [RewardModule]
