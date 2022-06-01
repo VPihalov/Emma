@@ -1,19 +1,19 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { Logger, VersioningType } from '@nestjs/common'
-import { NestExpressApplication } from '@nestjs/platform-express'
-import { generateOpenAPIdoc, getConfig, setupSwagger } from './utils/bootstrap.util'
 import chalk from 'chalk'
+import { Logger, VersioningType } from '@nestjs/common'
+import { NestFactory } from '@nestjs/core'
+import { NestExpressApplication } from '@nestjs/platform-express'
+import { AppModule } from './app.module'
+import { generateOpenAPIdoc, getConfig, setupSwagger } from './utils/bootstrap.util'
 
 async function bootstrap(): Promise<void> {
 
-  const logger = new Logger()
+  const logger = process.env.APP_LOGGING === 'true' ? new Logger() : false
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger,
   })
 
   app.use((request, response, next) => {
-    if (true) {
+    if (logger !== false) {
       const { ip, method, path: url } = request
       const userAgent = request.get('user-agent') || ''
 
