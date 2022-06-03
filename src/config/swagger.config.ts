@@ -2,7 +2,7 @@ import { DocumentBuilder, OpenAPIObject, SwaggerCustomOptions } from '@nestjs/sw
 
 export const swaggerCustomOptions: SwaggerCustomOptions = {
   swaggerOptions: {
-    persistAuthorization: true,
+    persistAuthorization: false,
   },
   customSiteTitle: 'Reward Service API Doc',
 }

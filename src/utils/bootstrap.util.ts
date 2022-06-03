@@ -16,8 +16,8 @@ export const generateOpenAPIdoc = async (document: OpenAPIObject): Promise<void>
 
 export const setupSwagger = (app: NestExpressApplication) => {
   const document: OpenAPIObject = SwaggerModule.createDocument(app, swaggerConfig)
-  document.info.version = 'Truepill'
-  document.info.title = 'Media Service API'
+  document.info.version = 'Emma'
+  document.info.title = 'Reward Service API'
   SwaggerModule.setup('api', app, document, swaggerCustomOptions)
   return document
 }

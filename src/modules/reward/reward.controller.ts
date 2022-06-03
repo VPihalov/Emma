@@ -1,13 +1,17 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Post } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 
+import { Broker } from '../brocker/broker.service'
 import { RewardService } from './reward.service'
 
-@Controller()
+@ApiTags('v1')
+@Controller({ version: '1' })
 export class RewardController {
-  constructor(private readonly rewardService: RewardService) {}
+  constructor(private readonly rewardService: RewardService, private readonly brokerService: Broker) {}
 
-  @Get()
-  getHello(): string {
-    return this.rewardService.getHello()
+  @Post('claim-free-share')
+  getHello(): any {
+    return this.brokerService.isMarketOpen()
+    // return this.rewardService.getReward()
   }
 }

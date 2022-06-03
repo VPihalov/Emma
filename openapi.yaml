@@ -1,16 +1,18 @@
 openapi: 3.0.0
 paths:
-  /:
-    get:
+  /v1/claim-free-share:
+    post:
       operationId: RewardController_getHello
       parameters: []
       responses:
-        "200":
+        "201":
           description: ""
+      tags:
+        - v1
 info:
-  title: Media Service API
+  title: Reward Service API
   description: Reward Service API documentation
-  version: Truepill
+  version: Emma
   contact: {}
 tags:
   - name: Reward Service
