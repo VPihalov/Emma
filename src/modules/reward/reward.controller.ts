@@ -11,7 +11,7 @@ export class RewardController {
 
   @Post('claim-free-share')
   getHello(): any {
-    return this.brokerService.isMarketOpen()
+    return this.brokerService.getRewardsAccountPositions()
     // return this.rewardService.getReward()
   }
 }
