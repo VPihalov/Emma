@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import { WinstonModule } from 'nest-winston'
 
-import { globalConfig } from './config/index.config'
+import { globalConfig, loggerConfig } from './config/index.config'
 import { appModules } from './modules/index.module'
 import { ConfigValidationSchemaUtil } from './utils/config-validation-schema.util'
 
@@ -14,6 +15,7 @@ import { ConfigValidationSchemaUtil } from './utils/config-validation-schema.uti
       cache: true,
       validationSchema: ConfigValidationSchemaUtil,
     }),
+    WinstonModule.forRoot(loggerConfig()),
     ...appModules,
   ],
 })
