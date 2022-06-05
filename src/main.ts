@@ -1,11 +1,11 @@
+import { loggerConfig } from '@config/index.config'
 import { Logger, VersioningType } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
+import { generateOpenAPIdoc, getConfig, setupSwagger } from '@utils/index.util'
 import { WINSTON_MODULE_NEST_PROVIDER, WinstonModule } from 'nest-winston'
 
 import { AppModule } from './app.module'
-import { loggerConfig } from './config/index.config'
-import { generateOpenAPIdoc, getConfig, setupSwagger } from './utils/bootstrap.util'
 
 async function bootstrap(): Promise<void> {
   const logger = process.env.APP_LOGGING === 'true' ? new Logger() : false

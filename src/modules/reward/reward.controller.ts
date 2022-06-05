@@ -1,4 +1,4 @@
-import { Controller, Post } from '@nestjs/common'
+import { Controller, Param, ParseUUIDPipe, Post } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 
 import { Broker } from '../brocker/broker.service'
@@ -9,9 +9,10 @@ import { RewardService } from './reward.service'
 export class RewardController {
   constructor(private readonly rewardService: RewardService, private readonly brokerService: Broker) {}
 
-  @Post('claim-free-share')
-  getHello(): any {
-    return this.brokerService.getRewardsAccountPositions()
-    // return this.rewardService.getReward()
+  @Post('claim-free-share/:userId')
+  claimFreeShare(@Param('userId', ParseUUIDPipe) userId: string): any {
+    console.log(`userId`, userId)
+    // return this.brokerService.listTradableAssets()
+    return this.rewardService.getReward(userId)
   }
 }

@@ -1,6 +1,6 @@
 export interface IAccount {
   id: string
-  name: string
+  userId: string
   assets: Array<IAsset> | []
 }
 

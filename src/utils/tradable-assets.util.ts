@@ -1,8 +1,9 @@
 import { faker } from '@faker-js/faker'
+import { IAsset } from '@interfaces/account.interface'
 
-export const getTradableAssetsList = () => {
+export const getTradableAssetsList = (): Array<IAsset> => {
   const list = []
-  for (let i = 101; i <= 200; i++) {
+  for (let i = 1; i <= 200; i++) {
     const randomName = faker.company
       .companyName()
       .slice(0, Math.random() * 2 + 3)

@@ -1,10 +1,9 @@
+import { globalConfig, loggerConfig } from '@config/index.config'
+import { appModules } from '@modules/index.module'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import { ConfigValidationSchemaUtil } from '@utils/config-validation-schema.util'
 import { WinstonModule } from 'nest-winston'
-
-import { globalConfig, loggerConfig } from './config/index.config'
-import { appModules } from './modules/index.module'
-import { ConfigValidationSchemaUtil } from './utils/config-validation-schema.util'
 
 @Module({
   imports: [

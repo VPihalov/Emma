@@ -1,11 +1,10 @@
+import { swaggerConfig, swaggerCustomOptions } from '@config/swagger.config'
 import { ConfigService } from '@nestjs/config'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { OpenAPIObject, SwaggerModule } from '@nestjs/swagger'
 import { writeFile } from 'fs/promises'
 import * as path from 'path'
 import * as YAML from 'yaml'
-
-import { swaggerConfig, swaggerCustomOptions } from '../config/swagger.config'
 
 export const generateOpenAPIdoc = async (document: OpenAPIObject): Promise<void> => {
   const swaggerYamlPath = path.resolve(process.cwd(), 'openapi.yaml')

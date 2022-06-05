@@ -23,6 +23,8 @@
       "@utils/*": ["src/utils/*"],
       "@constants/*": ["src/constants/*"],
       "@interfaces/*": ["src/interfaces/*"],
+      "@mocks/*": ["src/mocks/*"],
+      "@enums/*": ["src/enums/*"],
     }
   }
 }

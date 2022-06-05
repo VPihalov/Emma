@@ -1,9 +1,14 @@
 openapi: 3.0.0
 paths:
-  /v1/claim-free-share:
+  "/v1/claim-free-share/{userId}":
     post:
-      operationId: RewardController_getHello
-      parameters: []
+      operationId: RewardController_claimFreeShare
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          schema:
+            type: string
       responses:
         "201":
           description: ""
