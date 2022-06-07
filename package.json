@@ -23,7 +23,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config e2e_tests/jest-e2e.json",
     "generate-assets": "chmod u+x  ./src/mocks/assets.mock.ts",
-    "clear-jest": "jest --clearCache"
+    "clear-jest": "jest --clearCache",
+    "build-image": "docker build ."
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",

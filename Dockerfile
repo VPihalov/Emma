@@ -21,4 +21,6 @@ COPY . .
 
 RUN yarn run build
 
-CMD ["node", "dist/src/main"]
+EXPOSE 5000
+
+CMD ["node", "dist/main"]

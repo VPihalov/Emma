@@ -48,3 +48,9 @@ from the root of the project and rerun application (it will generate actual open
 To see actual api documentation you can go to the `{host}/api`
 
 ![Reward git-flow](src/images/swagger.png?raw=true "Swagger doc")
+
+## Application Containerization (Dockerize)
+To dockerize application you can run `docker build .` from the root of the project or run script `yarn run build-image` and then run built image by `docker run -p <port>:<port> -d <image>` 
+
+## Application testing
+To test application you can run script `yarn run test` (`yarn run test:e2e`)

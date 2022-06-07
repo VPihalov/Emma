@@ -9,7 +9,15 @@ import { getAccountByUserId, sortASC } from '@utils/index.util'
 export class RewardService {
   constructor(private readonly config: ConfigService, private readonly broker: Broker) {}
 
-  async getReward(userId): Promise<IClaimShare | string> {
+  /**
+   * @name getReward
+   * @description get reward shares for new users or when they refer a friend
+   * @param userId - unique user id, string
+   * @example 6ad50cbe-9970-431e-8bf9-b37dbe778cb7
+   * @return reward request result, object
+   * @example { success: true }
+   * */
+  async getReward(userId: string): Promise<IClaimShare | string> {
     const distributedReward = this.weightedRewards(this.getSuccessRateList())
     const isMarketOpen = await this.broker.isMarketOpen()
     if (!isMarketOpen.open) return `Market is closed now. Try it later`
@@ -18,15 +26,34 @@ export class RewardService {
     return await this.broker.moveSharesFromRewardsAccount(toAccount, ticker, quantity)
   }
 
+  /**
+   * @name getTickers
+   * @description - get an array of tickers symbols available to purchase
+   * @return Array - reward request result, array of object
+   * @example - ['FSEE', 'FFEE']
+   * */
   private async getTickers(): Promise<Array<string>> {
     const listTradableAssets = await this.broker.listTradableAssets()
     return listTradableAssets.map((ticker: { tickerSymbol: string }) => ticker.tickerSymbol)
   }
 
+  /**
+   * @name getRandomShareValue
+   * @description - get random value from the range provided
+   * @param min - minimum value of the range, number
+   * @param max - maximum value of the range, number
+   * @return - random value from the range provided, number
+   * @example 5
+   * */
   private getRandomShareValue(max, min): number {
     return Math.round(Math.random() * (max - min)) + min
   }
 
+  /**
+   * @name getSuccessRateList
+   * @description - get success rate list
+   * @return - list of rewarded rate, array
+   * */
   private getSuccessRateList(): Array<IRewardRateList> {
     const rewardList = this.getRewardList()
     let rate = 0
@@ -36,6 +63,14 @@ export class RewardService {
     })
   }
 
+  /**
+   * @name buyRewards
+   * @description - move shares to emma's account
+   * @param tickers - minimum value of the range, string
+   * @param distributedReward - random value according to probability distribution, number
+   * @return - object of ticker and quantity bought, object
+   * @example { ticker: 'DSEE', quantity: 1}
+   * */
   async buyRewards(tickers, distributedReward) {
     for (const ticker of tickers) {
       const price = await this.broker.getLatestPrice(ticker)
@@ -47,6 +82,12 @@ export class RewardService {
     }
   }
 
+  /**
+   * @name getRewardList
+   * @description get an array of pairs of random values and probability distribution
+   * @return list of pairs, array
+   * @example [{ value: 5, probability: 95 }, { value: 22, probability: 3 }, { value: 198, probability: 2 }]
+   * */
   private getRewardList(): Array<IRewardList> {
     const rewardValue = this.getRewardValue()
     return [
@@ -65,6 +106,12 @@ export class RewardService {
     ]
   }
 
+  /**
+   * @name getRewardValue
+   * @description get config of distributed rewards
+   * @return config of distributed rewards, object
+   * @example { lowMin: 3, lowMax: 10, middleMin: 11, middleMax: 25, highMin: 26, highMax: 200}
+   * */
   private getRewardValue(): IRewardConfig {
     return {
       lowMin: this.config.get<number>('REWARD.LOW_MIN'),
@@ -76,6 +123,13 @@ export class RewardService {
     }
   }
 
+  /**
+   * @name weightedRewards
+   * @description get weighted reward
+   * @param list of pairs both value and its probability, array
+   * @return weighted reward, number
+   * @example 6
+   * */
   weightedRewards(list): number {
     const random = Math.random() * 100
     const rewards = list.sort(sortASC)
