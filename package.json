@@ -1,28 +1,29 @@
 {
-  "name": "Reward",
+  "name": "Reward-Service",
   "version": "0.0.1",
   "description": "Emma reward service",
   "author": "Emma engineers",
   "license": "MIT",
   "engines": {
-    "node": "16.x",
+    "node": ">=16.x",
     "yarn": "1.22.x"
   },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \\\"src/**/*.ts\\\" \\\"test/**/*.ts\\\"",
+    "format": "prettier --write \\\\\\\"src/**/*.ts\\\\\\\" \\\\\\\"e2e_tests/**/*.ts\\\\\\\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config test/jest-e2e.json",
-    "generate-assets": "chmod u+x  ./src/mocks/assets.mock.ts"
+    "test:e2e": "jest --config e2e_tests/jest-e2e.json",
+    "generate-assets": "chmod u+x  ./src/mocks/assets.mock.ts",
+    "clear-jest": "jest --clearCache"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -30,6 +31,7 @@
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/swagger": "^5.2.1",
+    "dotenv": "^16.0.1",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "joi": "^17.6.0",
     "nest-winston": "^1.6.2",
@@ -80,6 +82,15 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "@constants(.*)": "<rootDir>/constants/$1",
+      "@enums(.*)": "<rootDir>/enums/$1",
+      "@mocks(.*)": "<rootDir>/mocks/$1",
+      "@utils(.*)": "<rootDir>/utils/$1",
+      "@config(.*)": "<rootDir>/config/$1",
+      "@modules(.*)": "<rootDir>/modules/$1"
+    },
+    "testTimeout": 20000
   }
 }

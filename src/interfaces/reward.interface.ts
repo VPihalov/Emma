@@ -15,3 +15,7 @@ export interface IRewardList {
 export interface IRewardRateList extends IRewardList {
   rate: number
 }
+
+export interface IClaimShare {
+  success: boolean
+}

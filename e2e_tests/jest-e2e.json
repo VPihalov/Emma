@@ -1,0 +1,17 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "@constants(.*)": "<rootDir>/../src/constants/$1",
+    "@enums(.*)": "<rootDir>/../src/enums/$1",
+    "@mocks(.*)": "<rootDir>/../src/mocks/$1",
+    "@utils(.*)": "<rootDir>/../src/utils/$1",
+    "@config(.*)": "<rootDir>/../src/../src/config/$1",
+    "@modules(.*)": "<rootDir>/../src/modules/$1"
+  }
+}

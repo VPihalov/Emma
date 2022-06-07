@@ -1,7 +1,7 @@
 import { OPERATION } from '@enums/operation.enum'
 import { IAsset } from '@interfaces/account.interface'
 import { HttpException, HttpStatus } from '@nestjs/common'
-import { getSharePrice } from '@utils/get-price.util'
+import { getSharePrice } from '@utils/index.util'
 import { setTimeout } from 'timers/promises'
 
 export const buyOrSellAssets = async ({
@@ -23,7 +23,7 @@ export const buyOrSellAssets = async ({
         throw new HttpException(
           {
             status: HttpStatus.BAD_REQUEST,
-            error: 'Not enough shares to move from rewards account',
+            error: 'Not enough shares to move from rewards account. Buy it first please',
           },
           HttpStatus.BAD_REQUEST
         )

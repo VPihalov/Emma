@@ -3,6 +3,8 @@ paths:
   "/v1/claim-free-share/{userId}":
     post:
       operationId: RewardController_claimFreeShare
+      summary: Create media record
+      description: Create media record and returns an url to upload a file
       parameters:
         - name: userId
           required: true
@@ -10,8 +12,18 @@ paths:
           schema:
             type: string
       responses:
-        "201":
+        "200":
           description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateResponseDto"
+        "400":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
       tags:
         - v1
 info:
@@ -24,4 +36,31 @@ tags:
     description: ""
 servers: []
 components:
-  schemas: {}
+  schemas:
+    CreateResponseDto:
+      type: object
+      properties:
+        success:
+          type: string
+          description: Success of fail reward operation
+          example:
+            success: true
+      required:
+        - success
+    BadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 400
+        message:
+          type: array
+          items:
+            type: string
+        error:
+          type: string
+          example: Bad Request
+      required:
+        - statusCode
+        - message
+        - error

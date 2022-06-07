@@ -1,4 +1,4 @@
-import { ACCOUNT_ID } from '@constants/index.const'
+import { ACCOUNT_ID, DELAY } from '@constants/index.const'
 import { OPERATION } from '@enums/index.enum'
 import { faker } from '@faker-js/faker'
 import { IAsset } from '@interfaces/index.interface'
@@ -11,7 +11,7 @@ import { setTimeout } from 'timers/promises'
 export class Broker {
   async listTradableAssets(): Promise<Array<{ tickerSymbol: string }>> {
     return await setTimeout(
-      1000,
+      DELAY,
       assets.map((asset: IAsset) => ({ tickerSymbol: asset.tickerSymbol }))
     )
   }
@@ -21,7 +21,7 @@ export class Broker {
       const asset = assets.find((asset: IAsset) => asset.tickerSymbol === tickerSymbol)
       return { sharePrice: asset.sharePrice }
     }
-    return await setTimeout(1000, getLatestPrice())
+    return await setTimeout(DELAY, getLatestPrice())
   }
 
   async isMarketOpen(): Promise<{ open: boolean; nextOpeningTime: string; nextClosingTime: string }> {
@@ -30,7 +30,7 @@ export class Broker {
       nextOpeningTime: faker.date.soon(0.5).toISOString(),
       nextClosingTime: faker.date.soon(1).toISOString(),
     })
-    return await setTimeout(1000, isMarketOpen())
+    return await setTimeout(DELAY, isMarketOpen())
   }
 
   async buySharesInRewardsAccount(
@@ -42,11 +42,11 @@ export class Broker {
       emmaAccount.assets = await buyOrSellAssets({ assets: emmaAccount.assets, tickerSymbol, quantity })
       return { success: true, sharePricePaid: getSharePrice(tickerSymbol) }
     }
-    return await setTimeout(1000, buySharesInRewardsAccount())
+    return await setTimeout(DELAY, buySharesInRewardsAccount())
   }
 
   async getRewardsAccountPositions(): Promise<Array<{ tickerSymbol: string; quantity: number; sharePrice: number }>> {
-    return await setTimeout(1000, getAccountByID(ACCOUNT_ID.EMMA).assets)
+    return await setTimeout(DELAY, getAccountByID(ACCOUNT_ID.EMMA).assets)
   }
 
   async moveSharesFromRewardsAccount(
@@ -71,6 +71,6 @@ export class Broker {
       return { success: true }
     }
 
-    return await setTimeout(1000, await moveSharesFromRewardsAccount())
+    return await setTimeout(DELAY, await moveSharesFromRewardsAccount())
   }
 }

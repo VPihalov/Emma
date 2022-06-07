@@ -1,20 +1,21 @@
 import { SHARE_PROBABILITY } from '@constants/index.const'
-import { IRewardConfig, IRewardList, IRewardRateList } from '@interfaces/index.interface'
+import { IClaimShare, IRewardConfig, IRewardList, IRewardRateList } from '@interfaces/index.interface'
 import { Broker } from '@modules/brocker/broker.service'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { sortASC } from '@utils/index.util'
+import { getAccountByUserId, sortASC } from '@utils/index.util'
 
 @Injectable()
 export class RewardService {
   constructor(private readonly config: ConfigService, private readonly broker: Broker) {}
 
-  async getReward(userId): Promise<number | string> {
+  async getReward(userId): Promise<IClaimShare | string> {
     const distributedReward = this.weightedRewards(this.getSuccessRateList())
     const isMarketOpen = await this.broker.isMarketOpen()
-    if (!isMarketOpen.open) return `Market is closed now. The next open time is ${isMarketOpen.nextOpeningTime}`
-    const tradableTickers = await this.getTickers()
-    return distributedReward
+    if (!isMarketOpen.open) return `Market is closed now. Try it later`
+    const { ticker, quantity } = await this.buyRewards(await this.getTickers(), distributedReward)
+    const { id: toAccount } = getAccountByUserId(userId)
+    return await this.broker.moveSharesFromRewardsAccount(toAccount, ticker, quantity)
   }
 
   private async getTickers(): Promise<Array<string>> {
@@ -33,6 +34,17 @@ export class RewardService {
       rate = rate + reward.probability
       return { ...reward, rate }
     })
+  }
+
+  async buyRewards(tickers, distributedReward) {
+    for (const ticker of tickers) {
+      const price = await this.broker.getLatestPrice(ticker)
+      if (price.sharePrice <= distributedReward) {
+        const quantity = 1
+        await this.broker.buySharesInRewardsAccount(ticker, quantity)
+        return { ticker, quantity }
+      }
+    }
   }
 
   private getRewardList(): Array<IRewardList> {
@@ -64,7 +76,7 @@ export class RewardService {
     }
   }
 
-  private weightedRewards(list): number {
+  weightedRewards(list): number {
     const random = Math.random() * 100
     const rewards = list.sort(sortASC)
     for (const { rate, value } of rewards) {
