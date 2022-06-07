@@ -1,0 +1,66 @@
+openapi: 3.0.0
+paths:
+  "/v1/claim-free-share/{userId}":
+    post:
+      operationId: RewardController_claimFreeShare
+      summary: Create media record
+      description: Create media record and returns an url to upload a file
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateResponseDto"
+        "400":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
+      tags:
+        - v1
+info:
+  title: Reward Service API
+  description: Reward Service API documentation
+  version: Emma
+  contact: {}
+tags:
+  - name: Reward Service
+    description: ""
+servers: []
+components:
+  schemas:
+    CreateResponseDto:
+      type: object
+      properties:
+        success:
+          type: string
+          description: Success of fail reward operation
+          example:
+            success: true
+      required:
+        - success
+    BadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 400
+        message:
+          type: array
+          items:
+            type: string
+        error:
+          type: string
+          example: Bad Request
+      required:
+        - statusCode
+        - message
+        - error
